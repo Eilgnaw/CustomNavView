@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeTabView: View {
-    let maxHeight = UIScreen.main.bounds.height / 2.3
+    // let maxHeight = UIScreen.main.bounds.height / 2.3
     @State var y:CGFloat = 0
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -17,8 +17,6 @@ struct HomeTabView: View {
                 CustomNavView()
 
                 ScrollView {
-                    Spacer()
-
                     VStack(spacing: 1) {
                         ADimgView()
                             .frame(height: 150)
@@ -31,18 +29,14 @@ struct HomeTabView: View {
                         .padding()
 
                         GeometryReader { reader -> AnyView in
-                            y = reader.frame(in: .global).minY + maxHeight
+                            y = reader.frame(in: .global).minY
                             return AnyView(
                                 SubTitle()
                                     .frame(height: 50)
-                                    .opacity(y > 480 ? 1 : 0)
-                                    // avoiding bottom scroll
-                                   // .offset(y: y > 480 ? 0 : -reader.frame(in: .global).minY + 80)
+                                    .opacity(y > 120 ? 1 : 0)
                             )
                         }
                         .frame(height: 50)
-
-
 
                         ForEach(1 ..< 20) {_ in
                             GoodsInfoView()
@@ -57,7 +51,7 @@ struct HomeTabView: View {
             }
             SubTitle()
                 .background(Color.white)
-                .opacity(y > 480 ? 0 : 1)
+                .opacity(y > 120 ? 0 : 1)
                 .offset(y: 80)
                 .frame(height: 50)
 
@@ -68,26 +62,26 @@ struct HomeTabView: View {
 }
 
 
-struct ADimgView: View {
-    @State var currentIndex: Int = 0
-    let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
-    var body: some View {
-        TabView(selection: $currentIndex){
-            ForEach(1 ..< 5) {index in
-                CardView(imgindex: index)
-                    .tag(index)
-            }
-        }
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
-        .cornerRadius(10)
-        .padding()
-        .onReceive(timer) { _ in
-            withAnimation {
-                self.currentIndex = (self.currentIndex + 1) % 4
-            }
-        }
-    }
-}
+//struct ADimgView: View {
+//    @State var currentIndex: Int = 0
+//    let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+//    var body: some View {
+//        TabView(selection: $currentIndex){
+//            ForEach(1 ..< 5) {index in
+//                CardView(imgindex: index)
+//                    .tag(index)
+//            }
+//        }
+//        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+//        .cornerRadius(10)
+//        .padding()
+//        .onReceive(timer) { _ in
+//            withAnimation {
+//                self.currentIndex = (self.currentIndex + 1) % 4
+//            }
+//        }
+//    }
+//}
 
 
 
@@ -272,7 +266,7 @@ struct CustomNavView: View {
                 .offset(y: 15.0)
             Spacer()
         }
-        .frame(height: 79)
+        .frame(height: 88)
         .background(Color.white)
     }
 }
