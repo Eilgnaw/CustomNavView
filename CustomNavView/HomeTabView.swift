@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+// bottom only rounded corners
+struct RoundedShape: Shape {
+    // for reusable
+    var corners: UIRectCorner
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: 45, height: 45))
+
+        return Path(path.cgPath)
+    }
+}
+
 struct HomeTabView: View {
     // let maxHeight = UIScreen.main.bounds.height / 2.3
     @State var y:CGFloat = 0
@@ -15,6 +27,7 @@ struct HomeTabView: View {
             Color.black.opacity(0.1)
             VStack(spacing: 1) {
                 CustomNavView()
+                    .padding(.bottom, 10)
 
                 ScrollView {
                     VStack(spacing: 1) {
@@ -25,7 +38,8 @@ struct HomeTabView: View {
                             MenuView()
                         }
                         .background(Color.white)
-                        .cornerRadius(10)
+                        //.clipShape(RoundedShape(corners: .al))
+                        .cornerRadius(20)
                         .padding()
 
                         GeometryReader { reader -> AnyView in
@@ -41,7 +55,7 @@ struct HomeTabView: View {
                         ForEach(1 ..< 20) {_ in
                             GoodsInfoView()
                                 .background(Color.white)
-                                .cornerRadius(10)
+                                .cornerRadius(20)
                         }
                         .padding([.horizontal, .top, .bottom])
 

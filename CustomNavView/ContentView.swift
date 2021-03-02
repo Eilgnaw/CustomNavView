@@ -10,7 +10,7 @@ import UIKit
 
 struct ContentView: View {
     var body: some View {
-        ADimgView()
+        MainTabView()
     }
 }
 
@@ -19,7 +19,7 @@ struct ADimgView: View {
     @State var currentIndex: Int = 0 {
         didSet {
             if currentIndex == 3 {
-                self.items = [3, 0, 1, 2]
+                self.items = [ 3, 0, 1, 2]
                 self.tabid += 1
             }
             if currentIndex == 0 {
@@ -37,27 +37,24 @@ struct ADimgView: View {
             ForEach(items, id: \.self ) {index in
                 ZStack {
                     CardView(imgindex: index)
-                    Text(" \(index) ")
-                        .font(.largeTitle)
-                        .foregroundColor(.red)
-                        .background(Color.black)
+//                    Text(" \(index) ")
+//                        .font(.largeTitle)
+//                        .foregroundColor(.red)
+//                        .background(Color.black)
                 }
                 .tag(index)
             }
         }
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .id(tabid)
         .cornerRadius(10)
         .padding()
-        .onChange(of: currentIndex) { newValue in
-            print("Name changed to \(currentIndex)!")
+        .onReceive(timer) { _ in
+            let current = (self.currentIndex + 1) % self.items.count
+            withAnimation(.easeIn(duration: 1)) {
+                self.currentIndex = current
+            }
         }
-//        .onReceive(timer) { _ in
-//            let current = (self.currentIndex + 1) % self.items.count
-//            withAnimation(.easeIn(duration: 2)) {
-//                self.currentIndex = current
-//            }
-//        }
     }
 }
 
